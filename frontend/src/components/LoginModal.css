@@ -2,17 +2,15 @@
 
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(13, 34, 71, 0.55);
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(11, 37, 69, 0.65);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  animation: fadeIn 0.2s ease;
-  backdrop-filter: blur(3px);
+  animation: fadeIn 0.25s ease;
+  backdrop-filter: blur(4px);
 }
 
 @keyframes fadeIn {
@@ -21,100 +19,96 @@
 }
 
 .modal-content {
-  background: var(--surface);
-  padding: 2.25rem;
-  border-radius: var(--radius-lg);
+  background: var(--white);
+  padding: 2.5rem;
+  border-radius: var(--border-radius);
   width: 100%;
-  max-width: 420px;
+  max-width: 450px;
   position: relative;
-  animation: slideUp 0.22s ease;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-lg);
+  animation: slideIn 0.28s ease;
+  box-shadow: 0 20px 50px rgba(11,37,69,0.25);
 }
 
-@keyframes slideUp {
-  from { transform: translateY(18px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
+@keyframes slideIn {
+  from { transform: translateY(-24px); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
 }
 
 .modal-content h2 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.5rem;
-  font-weight: 400;
-  color: var(--primary);
+  color: var(--primary-color);
   text-align: center;
-  margin-bottom: 0.3rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
 }
-
-.modal-content > p {
+.modal-content p {
   text-align: center;
-  color: var(--text-subtle);
-  margin-bottom: 1.75rem;
-  font-size: 0.875rem;
+  color: var(--text-light);
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
 }
 
 .modal-close-btn {
   position: absolute;
-  top: 1rem;
-  right: 1.25rem;
+  top: 1rem; right: 1.5rem;
   background: none;
   border: none;
-  font-size: 1.5rem;
-  color: var(--text-subtle);
+  font-size: 1.8rem;
+  color: #aaa;
   cursor: pointer;
   line-height: 1;
-  transition: color 0.15s ease;
+  transition: color 0.2s ease;
 }
-.modal-close-btn:hover {
-  color: var(--text);
-}
+.modal-close-btn:hover { color: var(--primary-color); }
 
-/* Role Selector */
 .role-selector {
   display: flex;
   margin-bottom: 1.5rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
   overflow: hidden;
 }
-
 .role-selector label {
   flex: 1;
   text-align: center;
-  padding: 0.65rem;
+  padding: 0.75rem;
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
-  color: var(--text-subtle);
-  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  color: var(--text-light);
   font-weight: 500;
+  font-size: 0.9rem;
 }
-
-.role-selector input[type="radio"] {
-  display: none;
-}
-
+.role-selector input[type="radio"] { display: none; }
 .role-selector label.active {
-  background-color: var(--primary);
-  color: #fff;
+  background-color: var(--primary-color);
+  color: var(--white);
 }
 
-/* Form Group (scoped override for modal — no uppercase labels here) */
-.modal-content .form-group label {
-  text-transform: none;
-  letter-spacing: 0;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--text-mid);
+.form-group { margin-bottom: 1.25rem; }
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+.form-group input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(26,110,181,0.15);
 }
 
-.modal-content .form-group input {
-  font-family: 'DM Sans', sans-serif;
-}
-
-/* Modal Footer */
 .modal-footer {
   text-align: center;
-  margin-top: 1.25rem;
-  font-size: 0.78rem;
-  color: var(--text-subtle);
+  margin-top: 1.5rem;
+  font-size: 0.8rem;
+  color: #999;
 }

@@ -6,80 +6,91 @@ import './Welcome.css';
 
 const announcementsPreview = mockAnnouncements.slice(0, 3);
 
+const BullhornIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+    <path d="M16.5 7.5h-9v9h9v-9z" />
+    <path fillRule="evenodd" d="M8.25 2.25A.75.75 0 0 1 9 3v.75h6V3a.75.75 0 0 1 1.5 0v.75h.75a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3H6.75a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h.75V3a.75.75 0 0 1 .75-.75zm-1.5 5.25v9.75h10.5V7.5H6.75z" clipRule="evenodd" />
+  </svg>
+);
+
 function Welcome() {
   return (
-    <div className="welcome-container">
+    <div className="welcome-container-aesthetic">
 
-      {/* ── HERO ── */}
-      <header className="welcome-hero">
-        <div className="hero-content">
-          <span className="hero-eyebrow">VJTI · Mumbai</span>
+      {/* HERO */}
+      <header className="aesthetic-hero">
+        <div className="hero-text-panel" data-aos="fade-right">
           <h1>Committee Coordinator</h1>
           <p>
-            Track expenses, manage sponsorships, and keep your
-            committee's finances in one place.
+            Track expenses, manage sponsorships, and keep your committee's
+            finances in one place. Built for VJTI committees.
           </p>
-          <a href="#committees" className="hero-cta">
-            Select your committee
+          <a href="#committee-grid" className="btn btn-primary">
+            Get Started
           </a>
         </div>
       </header>
 
-      <div className="welcome-body">
+      {/* ANNOUNCEMENTS */}
+      <section className="announcements-container" data-aos="fade-up">
+        <div className="announcements-header">
+          <h2>Announcements</h2>
+          <p>Updates from the administration</p>
+        </div>
+        <div className="announcements-list">
+          {announcementsPreview.map((announcement) => (
+            <div className="announcement-card" key={announcement.id}>
+              <div className="announcement-icon"><BullhornIcon /></div>
+              <div className="announcement-content">
+                <h3>{announcement.title}</h3>
+                <span className="announcement-date">{announcement.date}</span>
+                <p>{announcement.snippet}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="view-all-container">
+          <Link to="/announcements" className="btn-view-all">
+            View All Announcements &rarr;
+          </Link>
+        </div>
+      </section>
 
-        {/* ── ANNOUNCEMENTS ── */}
-        <section className="announcements-section">
-          <div className="announcements-head">
-            <p className="section-label">Notice Board</p>
-            <h2 className="section-heading">Announcements</h2>
-            <p className="section-sub">Updates from the administration</p>
-          </div>
-
-          <div className="announcements-stack">
-            {announcementsPreview.map((ann) => (
-              <div className="announcement-row" key={ann.id}>
-                <div className="ann-dot" />
-                <div className="ann-body">
-                  <h3>{ann.title}</h3>
-                  <span className="ann-meta">{ann.date}</span>
-                  <p>{ann.snippet}</p>
+      {/* COMMITTEE GRID */}
+      <section className="committee-grid-section" id="committee-grid" data-aos="fade-up">
+        <div className="committee-grid-header">
+          <h2>Committees</h2>
+          <p>Select your committee to log in.</p>
+        </div>
+        <div className="committee-grid">
+          {committees.map((committee, index) => (
+            <Link
+              to={`/login/${committee.id}`}
+              className="committee-card-flip"
+              key={committee.id}
+              data-aos="flip-left"
+              data-aos-delay={index * 50}
+            >
+              <div className="flip-inner">
+                <div className="flip-front">
+                  <div className="card-aesthetic-logo">
+                    <img src={committee.logo} alt={committee.name} />
+                  </div>
+                  <div className="card-aesthetic-name">
+                    <h3>{committee.name}</h3>
+                  </div>
+                </div>
+                <div className="flip-back">
+                  <span>Login as</span>
+                  <h3>{committee.name}</h3>
+                  <div className="flip-back-arrow">→</div>
                 </div>
               </div>
-            ))}
-          </div>
+            </Link>
+          ))}
+        </div>
+      </section>
 
-          <Link to="/announcements" className="view-all-link">
-            View all announcements →
-          </Link>
-        </section>
-
-        {/* ── COMMITTEE GRID ── */}
-        <section className="committees-section" id="committees">
-          <div className="committees-head">
-            <p className="section-label">Committees</p>
-            <h2 className="section-heading">Select your committee</h2>
-            <p className="section-sub">Click a card to log in</p>
-          </div>
-
-          <div className="committee-grid">
-            {committees.map((committee) => (
-              <Link
-                to={`/login/${committee.id}`}
-                className="committee-card"
-                key={committee.id}
-              >
-                <div className="committee-card-logo">
-                  <img src={committee.logo} alt={committee.name} />
-                </div>
-                <div className="committee-card-name">
-                  <h3>{committee.name}</h3>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-      </div>
     </div>
   );
 }

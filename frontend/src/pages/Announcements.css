@@ -3,40 +3,33 @@
 .full-announcements-list {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: 1.25rem;
 }
 
 .announcement-list-card {
-  padding: 1.25rem 1.5rem;
-  border-left: 3px solid var(--accent);
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  border-right: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  border-radius: var(--radius);
-  transition: box-shadow 0.15s ease;
+  padding: 1.5rem 2rem;
+  border-left: 4px solid var(--accent-color);
+  transition: box-shadow 0.2s ease, border-left-color 0.2s ease;
 }
 .announcement-list-card:hover {
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-hover);
+  border-left-color: var(--accent-warm);
 }
 
 .announcement-content h3 {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.975rem;
+  color: var(--primary-color);
+  font-size: 1.1rem;
   font-weight: 600;
-  color: var(--primary);
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.25rem;
 }
-
 .announcement-content .announcement-date {
   display: block;
-  font-size: 0.78rem;
-  color: var(--text-subtle);
-  margin-bottom: 0.55rem;
+  font-size: 0.82rem;
+  color: var(--text-light);
+  margin-bottom: 0.6rem;
 }
-
 .announcement-content p {
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: var(--text-mid);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-light);
 }
