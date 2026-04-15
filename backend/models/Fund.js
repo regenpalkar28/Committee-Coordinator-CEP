@@ -1,16 +1,15 @@
 const mongoose = require('mongoose');
-
 const fundSchema = new mongoose.Schema(
   {
     committee: {
       type: String,
       required: true,
-      unique: true, // Only one "fund" document per committee
+      unique: true,
     },
     totalFunds: {
       type: Number,
       required: true,
-      default: 0, // Starts at 0
+      default: 0,
     },
     totalExpenses: {
       type: Number,
@@ -22,9 +21,6 @@ const fundSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
-// This function will automatically create a Fund document
-// for a committee if one doesn't exist.
 fundSchema.statics.findOrCreate = async function (committee) {
   let fund = await this.findOne({ committee });
   if (!fund) {
@@ -32,5 +28,4 @@ fundSchema.statics.findOrCreate = async function (committee) {
   }
   return fund;
 };
-
 module.exports = mongoose.model('Fund', fundSchema);

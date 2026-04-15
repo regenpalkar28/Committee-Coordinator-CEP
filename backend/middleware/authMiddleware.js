@@ -1,10 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-
-// This "protect" function is the same as before
 const protect = async (req, res, next) => {
   let token;
-
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
@@ -19,18 +16,13 @@ const protect = async (req, res, next) => {
       return res.status(401).json({ message: 'Not authorized, token failed' });
     }
   }
-
   return res.status(401).json({ message: 'Not authorized, no token' });
 };
-
-// --- THIS IS THE NEW "SECURITY GUARD" ---
-// We will run this *after* "protect"
 const isTeacher = (req, res, next) => {
   if (req.user && req.user.role === 'teacher') {
-    next(); // They are a teacher, let them pass
+    next();
   } else {
     res.status(401).json({ message: 'Not authorized as a teacher' });
   }
 };
-
-module.exports = { protect, isTeacher }; // Export both
+module.exports = { protect, isTeacher };

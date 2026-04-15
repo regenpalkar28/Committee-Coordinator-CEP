@@ -2,9 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
 const User = require('./models/User');
-
 dotenv.config();
-
 const committees = [
   { id: 'technovanza', name: 'Technovanza' },
   { id: 'sra', name: 'SRA' },
@@ -19,31 +17,22 @@ const committees = [
   { id: 'ecell', name: 'E-Cell' },
   { id: 'alumni', name: 'Alumni Association' },
 ];
-
 const seedUsers = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
     console.log('MongoDB Connected for seeding...');
-
-    // Clear existing users
     await User.deleteMany({});
     console.log('Cleared existing users.');
-
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash('password123', salt);
-
     const users = [];
-
     for (const committee of committees) {
-      // Create a student for each committee
       users.push({
         username: `${committee.id}-student`,
         password: hashedPassword,
         role: 'student',
         committee: committee.id,
       });
-
-      // Create a teacher for each committee
       users.push({
         username: `${committee.id}-teacher`,
         password: hashedPassword,
@@ -51,10 +40,8 @@ const seedUsers = async () => {
         committee: committee.id,
       });
     }
-
     await User.insertMany(users);
     console.log(`Seeded ${users.length} users successfully!\n`);
-
     console.log('=== DUMMY LOGIN CREDENTIALS ===');
     console.log('Password for ALL accounts: password123\n');
     console.log('Committee'.padEnd(20), 'Student Username'.padEnd(30), 'Teacher Username');
@@ -67,12 +54,10 @@ const seedUsers = async () => {
       );
     }
     console.log('\n');
-
     process.exit(0);
   } catch (err) {
     console.error('Seeding error:', err.message);
     process.exit(1);
   }
 };
-
 seedUsers();
