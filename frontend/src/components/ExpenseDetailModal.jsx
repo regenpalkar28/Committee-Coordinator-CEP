@@ -69,6 +69,13 @@ function ExpenseDetailModal({ transaction, onClose, user }) {
             <strong>Description:</strong>
             <p>{transaction.description || 'No description provided.'}</p>
           </div>
+
+          {transaction.status === 'rejected' && transaction.rejectionReason && (
+            <div className="modal-rejection-reason">
+              <strong>Reason for Rejection:</strong>
+              <p>{transaction.rejectionReason}</p>
+            </div>
+          )}
         </div>
 
         <div className="modal-footer">

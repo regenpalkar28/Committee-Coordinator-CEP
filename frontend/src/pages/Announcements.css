@@ -33,3 +33,9 @@
   line-height: 1.65;
   color: var(--text-light);
 }
+
+.ann-posted-by {
+  color: var(--accent-color);
+  font-weight: 600;
+  font-size: 0.78rem;
+}

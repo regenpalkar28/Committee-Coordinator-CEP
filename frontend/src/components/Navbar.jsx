@@ -9,7 +9,8 @@ function Navbar() {
         
         {/* The main Logo/Brand link */}
         <Link to="/" className="navbar-brand">
-          Committee Coordinator
+          <img src="/vjti-logo.jpg" alt="VJTI" className="navbar-logo" />
+          <span>Committee Coordinator <em>VJTI</em></span>
         </Link>
 
         {/* The new navigation links */}

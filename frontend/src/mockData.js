@@ -69,39 +69,4 @@ export const mockFaculty = [
     committees: ['Aero'],
     photo: '/assets/faculty_pics/sachin_naik.png'
   },
-  {
-    id: 4.5,
-    name: 'Prof. B. V. Joshi',
-    department: 'Electronics Engineering',
-    committees: ['Technovanza'],
-    photo: '/assets/logos/placeholder.png'
-  },
-  {
-    id: 5,
-    name: 'Prof. L. N. Gupta',
-    department: 'Humanities',
-    committees: ['Rangawardhan'],
-    photo: '/assets/logos/placeholder.png'
-  },
-  {
-    id: 6,
-    name: 'Prof. M. K. Rao',
-    department: 'Administration',
-    committees: ['Alumni Association'],
-    photo: '/assets/logos/placeholder.png'
-  },
-  {
-    id: 7,
-    name: 'Prof. D. R. Sahu',
-    department: 'Production Engineering',
-    committees: ['Synergists'],
-    photo: '/assets/logos/placeholder.png'
-  },
-  {
-    id: 8,
-    name: 'Prof. V. A. Dixit',
-    department: 'Civil Engineering',
-    committees: ['Vishwa VJTI'],
-    photo: '/assets/logos/placeholder.png'
-  },
 ];

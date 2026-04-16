@@ -13,11 +13,27 @@
   padding-bottom: 2rem;
   margin-bottom: 2.5rem;
   border-bottom: 2px solid var(--border-color);
+  position: relative;
+}
+.page-header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 72px;
+  height: 2px;
+  background: var(--gradient-accent);
+  border-radius: 2px;
 }
 .page-header h1 {
   font-size: 2.2rem;
   font-weight: 700;
   color: var(--primary-color);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
 }
 .page-header p {
   font-size: 1.05rem;
@@ -27,7 +43,7 @@
 
 /* 3. CARD */
 .card {
-  background: var(--white);
+  background: var(--bg-tint);
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-soft);
@@ -37,7 +53,7 @@
 /* 4. BUTTONS */
 .btn {
   display: inline-block;
-  padding: 0.8rem 1.5rem;
+  padding: 0.8rem 1.6rem;
   border: none;
   border-radius: var(--border-radius);
   font-family: 'Inter', sans-serif;
@@ -45,17 +61,32 @@
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease;
 }
 .btn-primary {
-  background-color: var(--accent-color);
+  background-image: var(--gradient-accent);
+  background-size: 180% 180%;
+  background-position: 0% 50%;
   color: var(--white);
+  box-shadow: 0 4px 14px rgba(26, 110, 181, 0.28);
 }
 .btn-primary:hover {
-  background-color: var(--accent-warm);
+  background-position: 100% 50%;
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(224, 90, 30, 0.3);
+  box-shadow: 0 8px 22px rgba(26, 110, 181, 0.38);
 }
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -120%;
+  width: 60%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+}
+.btn-primary:hover::after { left: 140%; }
 
 /* 5. COMMITTEE GRID */
 .committee-grid-layout {
@@ -83,15 +114,16 @@
   border-radius: var(--border-radius);
   font-family: 'Inter', sans-serif;
   font-size: 1rem;
-  background-color: #fdfdfd;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background-color: #f4f8fd;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(26, 110, 181, 0.15);
+  border-color: var(--accent-bright);
+  box-shadow: var(--glow-accent);
+  background-color: var(--white);
 }
 .form-group textarea { min-height: 100px; resize: vertical; }
 
@@ -118,7 +150,7 @@
   .stat-card-row { grid-template-columns: 1fr; }
 }
 .stat-card {
-  background: var(--white);
+  background: var(--bg-tint);
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   padding: 1.5rem;
@@ -126,12 +158,26 @@
   align-items: center;
   gap: 1rem;
   box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 4px;
+  background: var(--gradient-accent);
+  transform: scaleY(0.4);
+  transform-origin: top;
+  transition: transform 0.3s ease;
 }
 .stat-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-hover);
+  border-color: rgba(56, 163, 245, 0.35);
 }
+.stat-card:hover::before { transform: scaleY(1); }
 .stat-card .stat-icon {
   flex-shrink: 0;
   width: 50px; height: 50px;
@@ -177,6 +223,7 @@
 .tab-button:hover { color: var(--primary-color); }
 .tab-button.active {
   color: var(--accent-color);
-  border-bottom-color: var(--accent-warm);
+  border-image: var(--gradient-accent) 1;
+  border-bottom: 3px solid;
 }
 .tab-content { padding: 1.5rem; }

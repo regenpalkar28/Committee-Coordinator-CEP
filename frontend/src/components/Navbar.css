@@ -1,14 +1,23 @@
 .main-navbar {
   height: 70px;
-  background: var(--primary-color);
+  background: var(--gradient-primary);
   color: var(--white);
   display: flex;
   align-items: center;
   padding: 0 2rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  box-shadow: 0 2px 14px rgba(11,37,69,0.25);
   position: sticky;
   top: 0;
   z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.main-navbar::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;
+  background: var(--gradient-accent);
+  opacity: 0.9;
 }
 
 .navbar-container {
@@ -21,11 +30,32 @@
 }
 
 .navbar-brand {
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--white);
   text-decoration: none;
   letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.navbar-logo {
+  height: 42px;
+  width: 42px;
+  object-fit: contain;
+  background: var(--white);
+  border-radius: 50%;
+  padding: 3px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+.navbar-brand em {
+  font-style: normal;
+  font-weight: 700;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-left: 0.35rem;
 }
 
 .navbar-links {
@@ -51,6 +81,7 @@
 
 .nav-link.active {
   color: var(--white);
-  background: rgba(255,255,255,0.12);
-  border-bottom-color: var(--accent-warm);
+  background: rgba(56,163,245,0.18);
+  border-bottom-color: var(--accent-bright);
+  box-shadow: inset 0 -2px 0 var(--accent-bright);
 }

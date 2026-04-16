@@ -27,7 +27,7 @@ const getCommitteeTransactions = async (req, res) => {
 };
 const updateTransactionStatus = async (req, res) => {
   try {
-    const { status } = req.body;
+    const { status, rejectionReason } = req.body;
     const transaction = await Transaction.findById(req.params.id);
     if (!transaction) {
       return res.status(404).json({ message: 'Transaction not found' });
@@ -37,6 +37,9 @@ const updateTransactionStatus = async (req, res) => {
     }
     const wasPending = transaction.status === 'pending';
     transaction.status = status;
+    if (status === 'rejected' && rejectionReason) {
+      transaction.rejectionReason = rejectionReason;
+    }
     const updatedTransaction = await transaction.save();
     if (wasPending && status === 'approved') {
       const fund = await Fund.findOrCreate(req.user.committee);

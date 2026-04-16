@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth');
 const transactionRoutes = require('./routes/transactions');
 const sponsorshipRoutes = require('./routes/sponsorships');
 const fundRoutes = require('./routes/funds');
+const announcementRoutes = require('./routes/announcements');
 const app = express();
 const connectDB = async () => {
   try {
@@ -24,6 +25,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/sponsorships', sponsorshipRoutes);
 app.use('/api/funds', fundRoutes);
+app.use('/api/announcements', announcementRoutes);
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to the VJTI Fund Tracker API!' });
 });

@@ -1,26 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { committees } from '../committees';
-import { mockAnnouncements } from '../mockData';
 import './Welcome.css';
-
-const announcementsPreview = mockAnnouncements.slice(0, 3);
 
 const BullhornIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
-    <path d="M16.5 7.5h-9v9h9v-9z" />
     <path fillRule="evenodd" d="M8.25 2.25A.75.75 0 0 1 9 3v.75h6V3a.75.75 0 0 1 1.5 0v.75h.75a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3H6.75a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h.75V3a.75.75 0 0 1 .75-.75zm-1.5 5.25v9.75h10.5V7.5H6.75z" clipRule="evenodd" />
   </svg>
 );
 
 function Welcome() {
+  const [announcements, setAnnouncements] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/announcements')
+      .then(res => setAnnouncements(res.data.slice(0, 3)))
+      .catch(err => console.error(err));
+  }, []);
+
   return (
     <div className="welcome-container-aesthetic">
 
       {/* HERO */}
       <header className="aesthetic-hero">
         <div className="hero-text-panel" data-aos="fade-right">
-          <h1>Committee Coordinator</h1>
+          <img src="/vjti-logo.jpg" alt="VJTI" className="hero-logo" />
+          <h1>Committee Coordinator <span className="hero-vjti">VJTI</span></h1>
           <p>
             Track expenses, manage sponsorships, and keep your committee's
             finances in one place. Built for VJTI committees.
@@ -38,13 +44,20 @@ function Welcome() {
           <p>Updates from the administration</p>
         </div>
         <div className="announcements-list">
-          {announcementsPreview.map((announcement) => (
-            <div className="announcement-card" key={announcement.id}>
+          {announcements.length === 0 && (
+            <p style={{ color: 'var(--text-light)', fontSize: '0.95rem' }}>No announcements yet.</p>
+          )}
+          {announcements.map((ann) => (
+            <div className="announcement-card" key={ann._id}>
               <div className="announcement-icon"><BullhornIcon /></div>
               <div className="announcement-content">
-                <h3>{announcement.title}</h3>
-                <span className="announcement-date">{announcement.date}</span>
-                <p>{announcement.snippet}</p>
+                <h3>{ann.title}</h3>
+                <span className="announcement-date">
+                  {new Date(ann.createdAt).toLocaleDateString('en-IN', {
+                    day: 'numeric', month: 'short', year: 'numeric'
+                  })}
+                </span>
+                <p>{ann.body}</p>
               </div>
             </div>
           ))}

@@ -118,6 +118,26 @@
   word-wrap: break-word;
 }
 
+.modal-rejection-reason {
+  margin-top: 1rem;
+}
+.modal-rejection-reason strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #b03a2e;
+}
+.modal-rejection-reason p {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  background: #fdedec;
+  border-radius: 8px;
+  border: 1px solid #f5b7b1;
+  color: #b03a2e;
+  font-weight: 500;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
 .modal-footer {
   padding: 1.25rem 1.5rem;
   background: var(--bg-alt, #f9f9f9);
