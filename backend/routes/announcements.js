@@ -7,8 +7,8 @@ const {
 } = require('../controllers/announcementController');
 const { protect, isTeacher } = require('../middleware/authMiddleware');
 
-router.get('/', getAnnouncements);                              // public
-router.post('/', protect, isTeacher, createAnnouncement);       // teacher only
-router.delete('/:id', protect, isTeacher, deleteAnnouncement);  // teacher only
+router.get('/', getAnnouncements);
+router.post('/', protect, isTeacher, createAnnouncement);
+router.delete('/:id', protect, isTeacher, deleteAnnouncement);
 
 module.exports = router;

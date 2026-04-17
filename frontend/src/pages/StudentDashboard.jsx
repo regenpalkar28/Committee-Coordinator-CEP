@@ -5,13 +5,11 @@ import { API_BASE } from '../api';
 import './StudentDashboard.css';
 import ExpenseDetailModal from '../components/ExpenseDetailModal';
 
-// --- Categories (Same) ---
 const categories = [
   'Marketing & Printing', 'Technology & Hardware', 'Food & Refreshments',
   'Logistics & Travel', 'Guest & Speaker Fees', 'Other'
 ];
 
-// --- Icons (TYPO FIXED) ---
 const FundsIcon = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width="24" height="24"><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 12a.75.75 0 0 1-.75.75H.75a.75.75 0 0 1 0-1.5h21a.75.75 0 0 1 .75.75Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M11.25 4.5v15m0 0a.75.75 0 0 1-.75-.75V4.5a.75.75 0 0 1 1.5 0v14.25a.75.75 0 0 1-.75.75Z" clipRule="evenodd" /></svg>;
 const ExpensesIcon = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width="24" height="24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" /></svg>;
 
@@ -23,7 +21,6 @@ function StudentDashboard() {
   const [sponsorships, setSponsorships] = useState([]);
   const [funds, setFunds] = useState({ totalFunds: 0, totalExpenses: 0 });
 
-  // --- Form States ---
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState(categories[0]);
@@ -42,9 +39,8 @@ function StudentDashboard() {
   const [loading, setLoading] = useState(false);
 
   const [selectedExpense, setSelectedExpense] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null); // <-- CHANGE 1: NEW STATE FOR USER
+  const [currentUser, setCurrentUser] = useState(null);
 
-  // WebSockets Chat stuff
   const [chatMessages, setChatMessages] = useState([]);
   const [newChatMessage, setNewChatMessage] = useState('');
   const socketRef = useRef(null);
@@ -53,7 +49,6 @@ function StudentDashboard() {
   const getToken = () => localStorage.getItem('token');
   const authConfig = { headers: { Authorization: `Bearer ${getToken()}` } };
 
-  // --- API Call: Fetch All Data ---
   const fetchData = async () => {
     try {
       const { data: fundData } = await axios.get(`${API_BASE}/api/funds/my-committee`, authConfig);
@@ -70,17 +65,14 @@ function StudentDashboard() {
 
   useEffect(() => {
     fetchData();
-    // --- CHANGE 2: "PROPERLY" LOAD USER FROM LOCALSTORAGE ---
     const userFromStorage = JSON.parse(localStorage.getItem('user'));
     if (userFromStorage) {
       setCurrentUser(userFromStorage);
     }
   }, []);
 
-  // Set up WebSockets & Load Messages when activeTab is 'messages'
   useEffect(() => {
     if (activeTab === 'messages' && currentUser) {
-      // 1. Fetch initial messages
       const fetchMessages = async () => {
         try {
           const { data } = await axios.get(`${API_BASE}/api/messages`, authConfig);
@@ -93,7 +85,6 @@ function StudentDashboard() {
       
       fetchMessages();
 
-      // Setup socket connection
       socketRef.current = io(API_BASE);
 
       socketRef.current.on('connect', () => {
@@ -102,7 +93,6 @@ function StudentDashboard() {
 
       socketRef.current.on('receive_message', (message) => {
         setChatMessages((prev) => {
-          // Avoid duplicates if requested in same session
           if (prev.find(m => m._id === message._id)) return prev;
           return [...prev, message];
         });
@@ -129,7 +119,6 @@ function StudentDashboard() {
     }
   };
 
-  // --- Form Submit: Expense ---
   const handleSubmitExpense = async (e) => {
     e.preventDefault();
     setLoading(true); setError(''); setSuccess('');
@@ -140,14 +129,13 @@ function StudentDashboard() {
       setLoading(false);
       setSuccess('Expense submitted successfully!');
       setTitle(''); setAmount(''); setDescription(''); setReceiptLink('');
-      fetchData(); // Refresh all data
+      fetchData();
     } catch (err) {
       setLoading(false);
       setError(err.response?.data?.message || 'Submission failed.');
     }
   };
   
-  // --- Form Submit: Sponsorship ---
   const handleSubmitSponsorship = async (e) => {
     e.preventDefault();
     setLoading(true); setError(''); setSuccess('');
@@ -163,14 +151,13 @@ function StudentDashboard() {
       setSuccess('Sponsorship logged successfully!');
       setCompanyName(''); setCompanyOrigin(''); setSponsorDesc(''); setDocumentLink('');
       setAmountPledged(''); setContactPerson(''); setContactEmail('');
-      fetchData(); // Refresh all data
+      fetchData();
     } catch (err) {
       setLoading(false);
       setError(err.response?.data?.message || 'Submission failed.');
     }
   };
 
-  // --- Renders the correct history based on the active tab ---
   const renderHistory = () => {
     if (activeTab === 'expense') {
       return (
@@ -234,7 +221,6 @@ function StudentDashboard() {
         <p>Logged in as {currentUser ? currentUser.username : 'Student Treasurer'}</p>
       </div>
 
-      {/* --- 1. "FUND TOTALS" STAT CARDS --- */}
       <div className="stat-card-row" data-aos="fade-up">
         <div className="card stat-card">
           <div className="stat-icon green"><FundsIcon /></div>
@@ -252,7 +238,6 @@ function StudentDashboard() {
         </div>
       </div>
 
-      {/* --- 2. "TABBED" INTERFACE --- */}
       <div className="card" data-aos="fade-up" data-aos-delay="200">
         <div className="dashboard-tabs">
           <button 
@@ -275,10 +260,7 @@ function StudentDashboard() {
           </button>
         </div>
 
-        {/* --- TAB CONTENT --- */}
         <div className="tab-content">
-          
-          {/* --- Tab 1: Log Expense --- */}
           {activeTab === 'expense' && (
             <div className="form-container">
               <form onSubmit={handleSubmitExpense}>
@@ -316,7 +298,6 @@ function StudentDashboard() {
             </div>
           )}
 
-          {/* --- Tab 2: Log Sponsorship (NEW FORM) --- */}
           {activeTab === 'sponsorship' && (
             <div className="form-container">
               <form onSubmit={handleSubmitSponsorship}>
@@ -363,7 +344,6 @@ function StudentDashboard() {
             </div>
           )}
 
-          {/* --- Tab 3: Messages --- */}
           {activeTab === 'messages' && (
             <div className="form-container messages-container" style={{ display: 'flex', flexDirection: 'column', height: '500px' }}>
               <h2>Committee Messages</h2>
@@ -405,10 +385,8 @@ function StudentDashboard() {
         </div>
       </div>
 
-      {/* --- 3. "SUBMISSION HISTORY" (Dynamic) --- */}
       {renderHistory()}
 
-      {/* --- CHANGE 3: "DYNAMICALLY" PASS THE USER PROP --- */}
       {selectedExpense && (
         <ExpenseDetailModal
           transaction={selectedExpense}

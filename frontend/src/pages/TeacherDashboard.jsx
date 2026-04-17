@@ -22,19 +22,16 @@ function TeacherDashboard() {
   const [expandedId, setExpandedId] = useState(null);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
 
-  // Rejection reason modal state
-  const [rejectTarget, setRejectTarget] = useState(null); // { id }
+  const [rejectTarget, setRejectTarget] = useState(null);
   const [rejectionReason, setRejectionReason] = useState('');
 
   const [currentUser, setCurrentUser] = useState(null);
 
-  // WebSockets Chat stuff
   const [chatMessages, setChatMessages] = useState([]);
   const [newChatMessage, setNewChatMessage] = useState('');
   const socketRef = useRef(null);
   const messagesEndRef = useRef(null);
 
-  // Announcement form state
   const [annTitle, setAnnTitle] = useState('');
   const [annBody, setAnnBody] = useState('');
   const [annLoading, setAnnLoading] = useState(false);
@@ -42,7 +39,6 @@ function TeacherDashboard() {
   const [annError, setAnnError] = useState('');
 
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
 
   const getToken = () => localStorage.getItem('token');
   const authConfig = { headers: { Authorization: `Bearer ${getToken()}` } };
@@ -62,25 +58,21 @@ function TeacherDashboard() {
       setAnnouncements(annData.data);
     } catch (err) {
       console.error('Error fetching data:', err);
-      setError('Could not fetch data.');
+
     }
     setLoading(false);
   };
 
-  useEffect(() => { 
-    fetchData(); 
-    
-    // Load current user from local storage
+  useEffect(() => {
+    fetchData();
     const userFromStorage = JSON.parse(localStorage.getItem('user'));
     if (userFromStorage) {
       setCurrentUser(userFromStorage);
     }
   }, []);
 
-  // WebSockets logic for Chat
   useEffect(() => {
     if (activeTab === 'messages' && currentUser) {
-      // Fetch initial messages
       const fetchMessages = async () => {
         try {
           const { data } = await axios.get(`${API_BASE}/api/messages`, authConfig);
@@ -92,7 +84,6 @@ function TeacherDashboard() {
       };
       fetchMessages();
 
-      // Setup socket
       socketRef.current = io(API_BASE);
 
       socketRef.current.on('connect', () => {
@@ -126,7 +117,6 @@ function TeacherDashboard() {
     }
   };
 
-  // Approve expense directly
   const handleApprove = async (id) => {
     try {
       const config = { headers: { 'Content-Type': 'application/json', ...authConfig.headers } };
@@ -135,13 +125,11 @@ function TeacherDashboard() {
     } catch (err) { console.error(err); }
   };
 
-  // Open rejection modal
   const openRejectModal = (id) => {
     setRejectTarget({ id });
     setRejectionReason('');
   };
 
-  // Confirm rejection with reason
   const handleConfirmReject = async () => {
     if (!rejectTarget) return;
     try {
@@ -157,7 +145,6 @@ function TeacherDashboard() {
     } catch (err) { console.error(err); }
   };
 
-  // Sponsorship status update
   const handleUpdateSponsorshipStatus = async (id, newStatus) => {
     try {
       const config = { headers: { 'Content-Type': 'application/json', ...authConfig.headers } };
@@ -166,7 +153,6 @@ function TeacherDashboard() {
     } catch (err) { console.error(err); }
   };
 
-  // Post announcement
   const handlePostAnnouncement = async (e) => {
     e.preventDefault();
     setAnnLoading(true); setAnnSuccess(''); setAnnError('');
@@ -182,7 +168,6 @@ function TeacherDashboard() {
     setAnnLoading(false);
   };
 
-  // Delete announcement
   const handleDeleteAnnouncement = async (id) => {
     if (!window.confirm('Delete this announcement?')) return;
     try {
@@ -195,7 +180,6 @@ function TeacherDashboard() {
   const pendingSponsorships = sponsorships.filter(s => s.status === 'pending');
   const allOtherTransactions = transactions.filter(t => t.status !== 'pending');
 
-  // Only show announcements posted by this teacher's committee
   const myAnnouncements = announcements.filter(
     a => a.postedBy?.committee === (JSON.parse(localStorage.getItem('user'))?.committee)
   );
@@ -207,7 +191,6 @@ function TeacherDashboard() {
         <p>Review and approve committee submissions.</p>
       </div>
 
-      {/* STAT CARDS */}
       <div className="stat-card-row" data-aos="fade-up">
         <div className="card stat-card">
           <div className="stat-icon green"><FundsIcon /></div>
@@ -232,7 +215,6 @@ function TeacherDashboard() {
         </div>
       </div>
 
-      {/* TABS */}
       <div className="card" data-aos="fade-up" data-aos-delay="200">
         <div className="dashboard-tabs">
           <button className={`tab-button ${activeTab === 'pending' ? 'active' : ''}`} onClick={() => setActiveTab('pending')}>
@@ -253,8 +235,6 @@ function TeacherDashboard() {
         </div>
 
         <div className="tab-content">
-
-          {/* Tab 1: Expense Queue */}
           {activeTab === 'pending' && (
             <div className="transaction-table">
               <table>
@@ -283,7 +263,6 @@ function TeacherDashboard() {
             </div>
           )}
 
-          {/* Tab 2: Sponsorship Queue */}
           {activeTab === 'sponsorships' && (
             <div className="queue-card-list">
               {loading && <p>Loading...</p>}
@@ -322,7 +301,6 @@ function TeacherDashboard() {
             </div>
           )}
 
-          {/* Tab 3: Full History */}
           {activeTab === 'history' && (
             <div className="transaction-table">
               <table>
@@ -352,7 +330,6 @@ function TeacherDashboard() {
             </div>
           )}
 
-          {/* Tab 4: Announcements */}
           {activeTab === 'announcements' && (
             <div className="announcements-tab">
               <div className="ann-form-section">
@@ -406,7 +383,6 @@ function TeacherDashboard() {
             </div>
           )}
 
-          {/* Tab 5: Messages */}
           {activeTab === 'messages' && (
             <div className="form-container messages-container" style={{ display: 'flex', flexDirection: 'column', height: '500px' }}>
               <h2>Committee Messages</h2>
@@ -448,7 +424,6 @@ function TeacherDashboard() {
         </div>
       </div>
 
-      {/* Expense Detail Modal */}
       {selectedTransaction && (
         <ExpenseDetailModal
           transaction={selectedTransaction}

@@ -34,7 +34,6 @@ const io = new Server(server, {
   }
 });
 
-// Pass io to request object so controllers can use it
 app.use((req, res, next) => {
   req.io = io;
   next();

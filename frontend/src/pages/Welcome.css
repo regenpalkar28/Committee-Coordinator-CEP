@@ -270,7 +270,7 @@
   transform: translateZ(0);
 }
 
-/* FRONT */
+
 .flip-front {
   background:
     linear-gradient(var(--bg-tint), var(--bg-tint)) padding-box,

@@ -1,6 +1,5 @@
 const Announcement = require('../models/Announcement');
 
-// POST /api/announcements — teacher creates announcement
 const createAnnouncement = async (req, res) => {
   try {
     const { title, body } = req.body;
@@ -18,7 +17,6 @@ const createAnnouncement = async (req, res) => {
   }
 };
 
-// GET /api/announcements — all users can read all announcements
 const getAnnouncements = async (req, res) => {
   try {
     const announcements = await Announcement.find()
@@ -30,7 +28,6 @@ const getAnnouncements = async (req, res) => {
   }
 };
 
-// DELETE /api/announcements/:id — teacher deletes own announcement
 const deleteAnnouncement = async (req, res) => {
   try {
     const announcement = await Announcement.findById(req.params.id);

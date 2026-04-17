@@ -1,6 +1,6 @@
-// Mock data for the project
 
-// 1. Head of Student Activities
+
+
 export const headOfStudentActivities = {
   id: 100,
   name: 'Dr. Suranjana Gangopadhyay',
@@ -9,7 +9,7 @@ export const headOfStudentActivities = {
   photo: '/assets/faculty_pics/gango_mam.png'
 };
 
-// 2. Announcements
+
 export const mockAnnouncements = [
   { id: 1, date: 'Oct 30, 2025', title: 'Q4 Budget Submissions', snippet: 'Treasurers — submit Q4 budget proposals by Nov 15. Late submissions won\'t be reviewed.' },
   { id: 2, date: 'Oct 28, 2025', title: 'Food Expenses Need Pre-Approval', snippet: 'Going forward, any food/refreshment expenses need your faculty advisor\'s sign-off before purchase. This applies to all committees.' },
@@ -18,7 +18,6 @@ export const mockAnnouncements = [
   { id: 5, date: 'Oct 20, 2025', title: 'Faculty Advisor Assignments', snippet: 'Advisor assignments for 2025-26 are final. Check the Faculty Advisors page for the updated list.' }
 ];
 
-// 3. Faculty Advisors
 export const mockFaculty = [
   {
     id: 1,

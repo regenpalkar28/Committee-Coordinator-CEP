@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './LoginModal.css';
 
-// isOpen and onClose are passed in from Login.jsx
+
 function LoginModal({ isOpen, onClose }) {
   const [role, setRole] = useState('student'); // 'student' or 'teacher'
   const [username, setUsername] = useState('');
@@ -10,20 +10,17 @@ function LoginModal({ isOpen, onClose }) {
   const handleLogin = (e) => {
     e.preventDefault();
     console.log('Logging in with:', { role, username, password });
+
     
-    // --- THIS IS WHERE YOU WILL CALL YOUR BACKEND API ---
-    // (We will build this later)
-    
-    onClose(); // Close the modal for now
+    onClose(); 
   };
 
-  // If the modal isn't supposed to be open, show nothing
+  
   if (!isOpen) {
     return null;
   }
 
   return (
-    // The dark background
     <div className="modal-overlay" onClick={onClose}>
       
       {/* The white modal box */}
