@@ -18,7 +18,7 @@ services:
         sync: false
 
   - type: web
-    name: committee-coordinator-web
+    name: committee-coordinator-vjti
     runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
